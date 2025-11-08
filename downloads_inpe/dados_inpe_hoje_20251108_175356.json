@@ -1,0 +1,461 @@
+[
+  {
+    "estado":"AC",
+    "estado_nome":"Acre",
+    "data_coleta":"2025-11-08T17:54:05.659815",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n6.85 μg\/m³\nPM₁₀\n7.01 μg\/m³\nSO₂\n0.06 μg\/m³\nNO₂\n0.71 μg\/m³\nO₃\n19.00 μg\/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n6.85 μg\/m³\nPM₁₀\n7.01 μg\/m³\nSO₂\n0.06 μg\/m³\nNO₂\n0.71 μg\/m³\nO₃\n19.00 μg\/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.85 μg\/m³\nPM₁₀\n7.01 μg\/m³\nSO₂\n0.06 μg\/m³\nNO₂\n0.71 μg\/m³\nO₃\n19.00 μg\/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n6.85 μg\/m³\nPM₁₀\n7.01 μg\/m³\nSO₂\n0.06 μg\/m³\nNO₂\n0.71 μg\/m³\nO₃\n19.00 μg\/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.85 μg\/m³":"PM₂.₅\n6.85 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n7.01 μg\/m³":"PM₁₀\n7.01 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.17 ppm":"CO\n0.17 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"AL",
+    "estado_nome":"Alagoas",
+    "data_coleta":"2025-11-08T17:54:15.391047",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n9.81 μg\/m³\nPM₁₀\n11.04 μg\/m³\nSO₂\n1.07 μg\/m³\nNO₂\n4.85 μg\/m³\nO₃\n55.22 μg\/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n9.81 μg\/m³\nPM₁₀\n11.04 μg\/m³\nSO₂\n1.07 μg\/m³\nNO₂\n4.85 μg\/m³\nO₃\n55.22 μg\/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n9.81 μg\/m³\nPM₁₀\n11.04 μg\/m³\nSO₂\n1.07 μg\/m³\nNO₂\n4.85 μg\/m³\nO₃\n55.22 μg\/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n9.81 μg\/m³\nPM₁₀\n11.04 μg\/m³\nSO₂\n1.07 μg\/m³\nNO₂\n4.85 μg\/m³\nO₃\n55.22 μg\/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n9.81 μg\/m³":"PM₂.₅\n9.81 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n11.04 μg\/m³":"PM₁₀\n11.04 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.17 ppm":"CO\n0.17 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"AP",
+    "estado_nome":"Amapá",
+    "data_coleta":"2025-11-08T17:54:25.254459",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n6.81 μg\/m³\nPM₁₀\n8.37 μg\/m³\nSO₂\n0.14 μg\/m³\nNO₂\n0.72 μg\/m³\nO₃\n26.74 μg\/m³\nCO\n0.12 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n6.81 μg\/m³\nPM₁₀\n8.37 μg\/m³\nSO₂\n0.14 μg\/m³\nNO₂\n0.72 μg\/m³\nO₃\n26.74 μg\/m³\nCO\n0.12 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.81 μg\/m³\nPM₁₀\n8.37 μg\/m³\nSO₂\n0.14 μg\/m³\nNO₂\n0.72 μg\/m³\nO₃\n26.74 μg\/m³\nCO\n0.12 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n6.81 μg\/m³\nPM₁₀\n8.37 μg\/m³\nSO₂\n0.14 μg\/m³\nNO₂\n0.72 μg\/m³\nO₃\n26.74 μg\/m³\nCO\n0.12 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.81 μg\/m³":"PM₂.₅\n6.81 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n8.37 μg\/m³":"PM₁₀\n8.37 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.12 ppm":"CO\n0.12 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"AM",
+    "estado_nome":"Amazonas",
+    "data_coleta":"2025-11-08T17:54:35.111680",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n8.07 μg\/m³\nPM₁₀\n8.29 μg\/m³\nSO₂\n0.07 μg\/m³\nNO₂\n0.54 μg\/m³\nO₃\n19.66 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n8.07 μg\/m³\nPM₁₀\n8.29 μg\/m³\nSO₂\n0.07 μg\/m³\nNO₂\n0.54 μg\/m³\nO₃\n19.66 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.07 μg\/m³\nPM₁₀\n8.29 μg\/m³\nSO₂\n0.07 μg\/m³\nNO₂\n0.54 μg\/m³\nO₃\n19.66 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n8.07 μg\/m³\nPM₁₀\n8.29 μg\/m³\nSO₂\n0.07 μg\/m³\nNO₂\n0.54 μg\/m³\nO₃\n19.66 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.07 μg\/m³":"PM₂.₅\n8.07 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n8.29 μg\/m³":"PM₁₀\n8.29 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.18 ppm":"CO\n0.18 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"BA",
+    "estado_nome":"Bahia",
+    "data_coleta":"2025-11-08T17:54:46.287041",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n11.25 μg\/m³\nPM₁₀\n12.19 μg\/m³\nSO₂\n0.57 μg\/m³\nNO₂\n2.90 μg\/m³\nO₃\n64.96 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n11.25 μg\/m³\nPM₁₀\n12.19 μg\/m³\nSO₂\n0.57 μg\/m³\nNO₂\n2.90 μg\/m³\nO₃\n64.96 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n11.25 μg\/m³\nPM₁₀\n12.19 μg\/m³\nSO₂\n0.57 μg\/m³\nNO₂\n2.90 μg\/m³\nO₃\n64.96 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n11.25 μg\/m³\nPM₁₀\n12.19 μg\/m³\nSO₂\n0.57 μg\/m³\nNO₂\n2.90 μg\/m³\nO₃\n64.96 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n11.25 μg\/m³":"PM₂.₅\n11.25 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n12.19 μg\/m³":"PM₁₀\n12.19 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.18 ppm":"CO\n0.18 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"CE",
+    "estado_nome":"Ceará",
+    "data_coleta":"2025-11-08T17:54:56.196138",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n4.96 μg\/m³\nPM₁₀\n5.92 μg\/m³\nSO₂\n0.53 μg\/m³\nNO₂\n2.25 μg\/m³\nO₃\n56.88 μg\/m³\nCO\n0.13 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n4.96 μg\/m³\nPM₁₀\n5.92 μg\/m³\nSO₂\n0.53 μg\/m³\nNO₂\n2.25 μg\/m³\nO₃\n56.88 μg\/m³\nCO\n0.13 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n4.96 μg\/m³\nPM₁₀\n5.92 μg\/m³\nSO₂\n0.53 μg\/m³\nNO₂\n2.25 μg\/m³\nO₃\n56.88 μg\/m³\nCO\n0.13 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n4.96 μg\/m³\nPM₁₀\n5.92 μg\/m³\nSO₂\n0.53 μg\/m³\nNO₂\n2.25 μg\/m³\nO₃\n56.88 μg\/m³\nCO\n0.13 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n4.96 μg\/m³":"PM₂.₅\n4.96 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n5.92 μg\/m³":"PM₁₀\n5.92 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.13 ppm":"CO\n0.13 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"DF",
+    "estado_nome":"Distrito Federal",
+    "data_coleta":"2025-11-08T17:55:05.307401",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.84 μg\/m³":"PM₂.₅\n8.84 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n8.93 μg\/m³":"PM₁₀\n8.93 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.21 ppm":"CO\n0.21 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"ES",
+    "estado_nome":"Espírito Santo",
+    "data_coleta":"2025-11-08T17:55:14.446911",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n8.62 μg\/m³\nPM₁₀\n11.23 μg\/m³\nSO₂\n3.28 μg\/m³\nNO₂\n3.92 μg\/m³\nO₃\n50.14 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n8.62 μg\/m³\nPM₁₀\n11.23 μg\/m³\nSO₂\n3.28 μg\/m³\nNO₂\n3.92 μg\/m³\nO₃\n50.14 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.62 μg\/m³\nPM₁₀\n11.23 μg\/m³\nSO₂\n3.28 μg\/m³\nNO₂\n3.92 μg\/m³\nO₃\n50.14 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n8.62 μg\/m³\nPM₁₀\n11.23 μg\/m³\nSO₂\n3.28 μg\/m³\nNO₂\n3.92 μg\/m³\nO₃\n50.14 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.62 μg\/m³":"PM₂.₅\n8.62 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n11.23 μg\/m³":"PM₁₀\n11.23 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.11 ppm":"CO\n0.11 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"GO",
+    "estado_nome":"Goiás",
+    "data_coleta":"2025-11-08T17:55:26.582403",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n7.33 μg\/m³\nPM₁₀\n7.42 μg\/m³\nSO₂\n0.32 μg\/m³\nNO₂\n3.81 μg\/m³\nO₃\n72.52 μg\/m³\nCO\n0.20 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n7.33 μg\/m³\nPM₁₀\n7.42 μg\/m³\nSO₂\n0.32 μg\/m³\nNO₂\n3.81 μg\/m³\nO₃\n72.52 μg\/m³\nCO\n0.20 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n7.33 μg\/m³\nPM₁₀\n7.42 μg\/m³\nSO₂\n0.32 μg\/m³\nNO₂\n3.81 μg\/m³\nO₃\n72.52 μg\/m³\nCO\n0.20 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n7.33 μg\/m³\nPM₁₀\n7.42 μg\/m³\nSO₂\n0.32 μg\/m³\nNO₂\n3.81 μg\/m³\nO₃\n72.52 μg\/m³\nCO\n0.20 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n7.33 μg\/m³":"PM₂.₅\n7.33 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n7.42 μg\/m³":"PM₁₀\n7.42 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.20 ppm":"CO\n0.20 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"MA",
+    "estado_nome":"Maranhão",
+    "data_coleta":"2025-11-08T17:55:36.524400",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n21.15 μg\/m³\nPM₁₀\n22.41 μg\/m³\nSO₂\n0.97 μg\/m³\nNO₂\n4.67 μg\/m³\nO₃\n59.48 μg\/m³\nCO\n0.28 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n21.15 μg\/m³\nPM₁₀\n22.41 μg\/m³\nSO₂\n0.97 μg\/m³\nNO₂\n4.67 μg\/m³\nO₃\n59.48 μg\/m³\nCO\n0.28 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n21.15 μg\/m³\nPM₁₀\n22.41 μg\/m³\nSO₂\n0.97 μg\/m³\nNO₂\n4.67 μg\/m³\nO₃\n59.48 μg\/m³\nCO\n0.28 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n21.15 μg\/m³\nPM₁₀\n22.41 μg\/m³\nSO₂\n0.97 μg\/m³\nNO₂\n4.67 μg\/m³\nO₃\n59.48 μg\/m³\nCO\n0.28 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n21.15 μg\/m³":"PM₂.₅\n21.15 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n22.41 μg\/m³":"PM₁₀\n22.41 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.28 ppm":"CO\n0.28 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"MT",
+    "estado_nome":"Mato Grosso",
+    "data_coleta":"2025-11-08T17:55:50.537856",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n6.75 μg\/m³\nPM₁₀\n6.90 μg\/m³\nSO₂\n0.16 μg\/m³\nNO₂\n2.09 μg\/m³\nO₃\n38.33 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n6.75 μg\/m³\nPM₁₀\n6.90 μg\/m³\nSO₂\n0.16 μg\/m³\nNO₂\n2.09 μg\/m³\nO₃\n38.33 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.75 μg\/m³\nPM₁₀\n6.90 μg\/m³\nSO₂\n0.16 μg\/m³\nNO₂\n2.09 μg\/m³\nO₃\n38.33 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n6.75 μg\/m³\nPM₁₀\n6.90 μg\/m³\nSO₂\n0.16 μg\/m³\nNO₂\n2.09 μg\/m³\nO₃\n38.33 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.75 μg\/m³":"PM₂.₅\n6.75 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n6.90 μg\/m³":"PM₁₀\n6.90 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.21 ppm":"CO\n0.21 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"MS",
+    "estado_nome":"Mato Grosso do Sul",
+    "data_coleta":"2025-11-08T17:56:00.970393",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n2.81 μg\/m³\nPM₁₀\n2.85 μg\/m³\nSO₂\n0.21 μg\/m³\nNO₂\n2.62 μg\/m³\nO₃\n62.87 μg\/m³\nCO\n0.19 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n2.81 μg\/m³\nPM₁₀\n2.85 μg\/m³\nSO₂\n0.21 μg\/m³\nNO₂\n2.62 μg\/m³\nO₃\n62.87 μg\/m³\nCO\n0.19 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n2.81 μg\/m³\nPM₁₀\n2.85 μg\/m³\nSO₂\n0.21 μg\/m³\nNO₂\n2.62 μg\/m³\nO₃\n62.87 μg\/m³\nCO\n0.19 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n2.81 μg\/m³\nPM₁₀\n2.85 μg\/m³\nSO₂\n0.21 μg\/m³\nNO₂\n2.62 μg\/m³\nO₃\n62.87 μg\/m³\nCO\n0.19 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n2.81 μg\/m³":"PM₂.₅\n2.81 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n2.85 μg\/m³":"PM₁₀\n2.85 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.19 ppm":"CO\n0.19 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"MG",
+    "estado_nome":"Minas Gerais",
+    "data_coleta":"2025-11-08T17:56:10.313665",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.84 μg\/m³":"PM₂.₅\n8.84 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n8.93 μg\/m³":"PM₁₀\n8.93 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.21 ppm":"CO\n0.21 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"PA",
+    "estado_nome":"Pará",
+    "data_coleta":"2025-11-08T17:56:19.729075",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n12.62 μg\/m³\nPM₁₀\n13.76 μg\/m³\nSO₂\n0.26 μg\/m³\nNO₂\n1.45 μg\/m³\nO₃\n35.93 μg\/m³\nCO\n0.19 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n12.62 μg\/m³\nPM₁₀\n13.76 μg\/m³\nSO₂\n0.26 μg\/m³\nNO₂\n1.45 μg\/m³\nO₃\n35.93 μg\/m³\nCO\n0.19 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n12.62 μg\/m³\nPM₁₀\n13.76 μg\/m³\nSO₂\n0.26 μg\/m³\nNO₂\n1.45 μg\/m³\nO₃\n35.93 μg\/m³\nCO\n0.19 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n12.62 μg\/m³\nPM₁₀\n13.76 μg\/m³\nSO₂\n0.26 μg\/m³\nNO₂\n1.45 μg\/m³\nO₃\n35.93 μg\/m³\nCO\n0.19 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n12.62 μg\/m³":"PM₂.₅\n12.62 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n13.76 μg\/m³":"PM₁₀\n13.76 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.19 ppm":"CO\n0.19 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"PB",
+    "estado_nome":"Paraíba",
+    "data_coleta":"2025-11-08T17:56:28.775644",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n5.33 μg\/m³\nPM₁₀\n6.19 μg\/m³\nSO₂\n0.75 μg\/m³\nNO₂\n3.20 μg\/m³\nO₃\n57.24 μg\/m³\nCO\n0.14 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n5.33 μg\/m³\nPM₁₀\n6.19 μg\/m³\nSO₂\n0.75 μg\/m³\nNO₂\n3.20 μg\/m³\nO₃\n57.24 μg\/m³\nCO\n0.14 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n5.33 μg\/m³\nPM₁₀\n6.19 μg\/m³\nSO₂\n0.75 μg\/m³\nNO₂\n3.20 μg\/m³\nO₃\n57.24 μg\/m³\nCO\n0.14 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n5.33 μg\/m³\nPM₁₀\n6.19 μg\/m³\nSO₂\n0.75 μg\/m³\nNO₂\n3.20 μg\/m³\nO₃\n57.24 μg\/m³\nCO\n0.14 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n5.33 μg\/m³":"PM₂.₅\n5.33 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n6.19 μg\/m³":"PM₁₀\n6.19 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.14 ppm":"CO\n0.14 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"PR",
+    "estado_nome":"Paraná",
+    "data_coleta":"2025-11-08T17:56:38.678792",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n6.20 μg\/m³\nPM₁₀\n6.59 μg\/m³\nSO₂\n0.83 μg\/m³\nNO₂\n5.08 μg\/m³\nO₃\n73.89 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n6.20 μg\/m³\nPM₁₀\n6.59 μg\/m³\nSO₂\n0.83 μg\/m³\nNO₂\n5.08 μg\/m³\nO₃\n73.89 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.20 μg\/m³\nPM₁₀\n6.59 μg\/m³\nSO₂\n0.83 μg\/m³\nNO₂\n5.08 μg\/m³\nO₃\n73.89 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n6.20 μg\/m³\nPM₁₀\n6.59 μg\/m³\nSO₂\n0.83 μg\/m³\nNO₂\n5.08 μg\/m³\nO₃\n73.89 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.20 μg\/m³":"PM₂.₅\n6.20 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n6.59 μg\/m³":"PM₁₀\n6.59 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.21 ppm":"CO\n0.21 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"PE",
+    "estado_nome":"Pernambuco",
+    "data_coleta":"2025-11-08T17:56:48.741399",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n7.68 μg\/m³\nPM₁₀\n8.30 μg\/m³\nSO₂\n0.85 μg\/m³\nNO₂\n4.59 μg\/m³\nO₃\n69.73 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n7.68 μg\/m³\nPM₁₀\n8.30 μg\/m³\nSO₂\n0.85 μg\/m³\nNO₂\n4.59 μg\/m³\nO₃\n69.73 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n7.68 μg\/m³\nPM₁₀\n8.30 μg\/m³\nSO₂\n0.85 μg\/m³\nNO₂\n4.59 μg\/m³\nO₃\n69.73 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n7.68 μg\/m³\nPM₁₀\n8.30 μg\/m³\nSO₂\n0.85 μg\/m³\nNO₂\n4.59 μg\/m³\nO₃\n69.73 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n7.68 μg\/m³":"PM₂.₅\n7.68 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n8.30 μg\/m³":"PM₁₀\n8.30 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.18 ppm":"CO\n0.18 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"PI",
+    "estado_nome":"Piauí",
+    "data_coleta":"2025-11-08T17:56:59.039491",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n16.41 μg\/m³\nPM₁₀\n17.15 μg\/m³\nSO₂\n0.57 μg\/m³\nNO₂\n3.21 μg\/m³\nO₃\n71.34 μg\/m³\nCO\n0.25 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n16.41 μg\/m³\nPM₁₀\n17.15 μg\/m³\nSO₂\n0.57 μg\/m³\nNO₂\n3.21 μg\/m³\nO₃\n71.34 μg\/m³\nCO\n0.25 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n16.41 μg\/m³\nPM₁₀\n17.15 μg\/m³\nSO₂\n0.57 μg\/m³\nNO₂\n3.21 μg\/m³\nO₃\n71.34 μg\/m³\nCO\n0.25 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n16.41 μg\/m³\nPM₁₀\n17.15 μg\/m³\nSO₂\n0.57 μg\/m³\nNO₂\n3.21 μg\/m³\nO₃\n71.34 μg\/m³\nCO\n0.25 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n16.41 μg\/m³":"PM₂.₅\n16.41 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n17.15 μg\/m³":"PM₁₀\n17.15 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.25 ppm":"CO\n0.25 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"RJ",
+    "estado_nome":"Rio de Janeiro",
+    "data_coleta":"2025-11-08T17:57:08.563735",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n10.59 μg\/m³\nPM₁₀\n12.31 μg\/m³\nSO₂\n2.31 μg\/m³\nNO₂\n7.24 μg\/m³\nO₃\n52.01 μg\/m³\nCO\n0.14 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n10.59 μg\/m³\nPM₁₀\n12.31 μg\/m³\nSO₂\n2.31 μg\/m³\nNO₂\n7.24 μg\/m³\nO₃\n52.01 μg\/m³\nCO\n0.14 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n10.59 μg\/m³\nPM₁₀\n12.31 μg\/m³\nSO₂\n2.31 μg\/m³\nNO₂\n7.24 μg\/m³\nO₃\n52.01 μg\/m³\nCO\n0.14 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n10.59 μg\/m³\nPM₁₀\n12.31 μg\/m³\nSO₂\n2.31 μg\/m³\nNO₂\n7.24 μg\/m³\nO₃\n52.01 μg\/m³\nCO\n0.14 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n10.59 μg\/m³":"PM₂.₅\n10.59 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n12.31 μg\/m³":"PM₁₀\n12.31 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.14 ppm":"CO\n0.14 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"RN",
+    "estado_nome":"Rio Grande do Norte",
+    "data_coleta":"2025-11-08T17:57:18.649291",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n4.95 μg\/m³\nPM₁₀\n6.56 μg\/m³\nSO₂\n0.48 μg\/m³\nNO₂\n1.81 μg\/m³\nO₃\n47.73 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n4.95 μg\/m³\nPM₁₀\n6.56 μg\/m³\nSO₂\n0.48 μg\/m³\nNO₂\n1.81 μg\/m³\nO₃\n47.73 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n4.95 μg\/m³\nPM₁₀\n6.56 μg\/m³\nSO₂\n0.48 μg\/m³\nNO₂\n1.81 μg\/m³\nO₃\n47.73 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n4.95 μg\/m³\nPM₁₀\n6.56 μg\/m³\nSO₂\n0.48 μg\/m³\nNO₂\n1.81 μg\/m³\nO₃\n47.73 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n4.95 μg\/m³":"PM₂.₅\n4.95 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n6.56 μg\/m³":"PM₁₀\n6.56 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.11 ppm":"CO\n0.11 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"RS",
+    "estado_nome":"Rio Grande do Sul",
+    "data_coleta":"2025-11-08T17:57:28.922765",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n3.96 μg\/m³\nPM₁₀\n4.32 μg\/m³\nSO₂\n0.54 μg\/m³\nNO₂\n2.85 μg\/m³\nO₃\n53.97 μg\/m³\nCO\n0.12 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n3.96 μg\/m³\nPM₁₀\n4.32 μg\/m³\nSO₂\n0.54 μg\/m³\nNO₂\n2.85 μg\/m³\nO₃\n53.97 μg\/m³\nCO\n0.12 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n3.96 μg\/m³\nPM₁₀\n4.32 μg\/m³\nSO₂\n0.54 μg\/m³\nNO₂\n2.85 μg\/m³\nO₃\n53.97 μg\/m³\nCO\n0.12 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n3.96 μg\/m³\nPM₁₀\n4.32 μg\/m³\nSO₂\n0.54 μg\/m³\nNO₂\n2.85 μg\/m³\nO₃\n53.97 μg\/m³\nCO\n0.12 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n3.96 μg\/m³":"PM₂.₅\n3.96 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n4.32 μg\/m³":"PM₁₀\n4.32 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.12 ppm":"CO\n0.12 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"RO",
+    "estado_nome":"Rondônia",
+    "data_coleta":"2025-11-08T17:57:38.051414",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n6.16 μg\/m³\nPM₁₀\n6.32 μg\/m³\nSO₂\n0.11 μg\/m³\nNO₂\n1.03 μg\/m³\nO₃\n26.73 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n6.16 μg\/m³\nPM₁₀\n6.32 μg\/m³\nSO₂\n0.11 μg\/m³\nNO₂\n1.03 μg\/m³\nO₃\n26.73 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.16 μg\/m³\nPM₁₀\n6.32 μg\/m³\nSO₂\n0.11 μg\/m³\nNO₂\n1.03 μg\/m³\nO₃\n26.73 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n6.16 μg\/m³\nPM₁₀\n6.32 μg\/m³\nSO₂\n0.11 μg\/m³\nNO₂\n1.03 μg\/m³\nO₃\n26.73 μg\/m³\nCO\n0.18 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n6.16 μg\/m³":"PM₂.₅\n6.16 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n6.32 μg\/m³":"PM₁₀\n6.32 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.18 ppm":"CO\n0.18 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"RR",
+    "estado_nome":"Roraima",
+    "data_coleta":"2025-11-08T17:57:48.182482",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n8.72 μg\/m³\nPM₁₀\n9.18 μg\/m³\nSO₂\n0.06 μg\/m³\nNO₂\n1.48 μg\/m³\nO₃\n21.31 μg\/m³\nCO\n0.15 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n8.72 μg\/m³\nPM₁₀\n9.18 μg\/m³\nSO₂\n0.06 μg\/m³\nNO₂\n1.48 μg\/m³\nO₃\n21.31 μg\/m³\nCO\n0.15 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.72 μg\/m³\nPM₁₀\n9.18 μg\/m³\nSO₂\n0.06 μg\/m³\nNO₂\n1.48 μg\/m³\nO₃\n21.31 μg\/m³\nCO\n0.15 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n8.72 μg\/m³\nPM₁₀\n9.18 μg\/m³\nSO₂\n0.06 μg\/m³\nNO₂\n1.48 μg\/m³\nO₃\n21.31 μg\/m³\nCO\n0.15 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.72 μg\/m³":"PM₂.₅\n8.72 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n9.18 μg\/m³":"PM₁₀\n9.18 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.15 ppm":"CO\n0.15 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"SC",
+    "estado_nome":"Santa Catarina",
+    "data_coleta":"2025-11-08T17:57:57.999851",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.84 μg\/m³":"PM₂.₅\n8.84 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n8.93 μg\/m³":"PM₁₀\n8.93 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.21 ppm":"CO\n0.21 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"SP",
+    "estado_nome":"São Paulo",
+    "data_coleta":"2025-11-08T17:58:15.127469",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n23.01 μg\/m³\nPM₁₀\n23.87 μg\/m³\nSO₂\n2.49 μg\/m³\nNO₂\n21.30 μg\/m³\nO₃\n62.66 μg\/m³\nCO\n0.41 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n23.01 μg\/m³\nPM₁₀\n23.87 μg\/m³\nSO₂\n2.49 μg\/m³\nNO₂\n21.30 μg\/m³\nO₃\n62.66 μg\/m³\nCO\n0.41 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n23.01 μg\/m³\nPM₁₀\n23.87 μg\/m³\nSO₂\n2.49 μg\/m³\nNO₂\n21.30 μg\/m³\nO₃\n62.66 μg\/m³\nCO\n0.41 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n23.01 μg\/m³\nPM₁₀\n23.87 μg\/m³\nSO₂\n2.49 μg\/m³\nNO₂\n21.30 μg\/m³\nO₃\n62.66 μg\/m³\nCO\n0.41 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n23.01 μg\/m³":"PM₂.₅\n23.01 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n23.87 μg\/m³":"PM₁₀\n23.87 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.41 ppm":"CO\n0.41 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"SE",
+    "estado_nome":"Sergipe",
+    "data_coleta":"2025-11-08T17:58:24.448993",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n5.91 μg\/m³\nPM₁₀\n7.71 μg\/m³\nSO₂\n1.00 μg\/m³\nNO₂\n3.32 μg\/m³\nO₃\n50.38 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n5.91 μg\/m³\nPM₁₀\n7.71 μg\/m³\nSO₂\n1.00 μg\/m³\nNO₂\n3.32 μg\/m³\nO₃\n50.38 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n5.91 μg\/m³\nPM₁₀\n7.71 μg\/m³\nSO₂\n1.00 μg\/m³\nNO₂\n3.32 μg\/m³\nO₃\n50.38 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n5.91 μg\/m³\nPM₁₀\n7.71 μg\/m³\nSO₂\n1.00 μg\/m³\nNO₂\n3.32 μg\/m³\nO₃\n50.38 μg\/m³\nCO\n0.11 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n5.91 μg\/m³":"PM₂.₅\n5.91 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n7.71 μg\/m³":"PM₁₀\n7.71 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.11 ppm":"CO\n0.11 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  },
+  {
+    "estado":"TO",
+    "estado_nome":"Tocantins",
+    "data_coleta":"2025-11-08T17:58:40.029076",
+    "indicadores":{
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"INDICADORES AMBIENTAIS\nPM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-":"PM₂.₅\n8.84 μg\/m³\nPM₁₀\n8.93 μg\/m³\nSO₂\n0.93 μg\/m³\nNO₂\n6.32 μg\/m³\nO₃\n80.95 μg\/m³\nCO\n0.21 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-",
+      "PM₂.₅\n8.84 μg\/m³":"PM₂.₅\n8.84 μg\/m³",
+      "PM₂.₅":"PM₂.₅",
+      "PM₁₀\n8.93 μg\/m³":"PM₁₀\n8.93 μg\/m³",
+      "PM₁₀":"PM₁₀",
+      "CO\n0.21 ppm":"CO\n0.21 ppm",
+      "CO":"CO",
+      "Focos\n-":"Focos\n-",
+      "Focos":"Focos"
+    }
+  }
+]
