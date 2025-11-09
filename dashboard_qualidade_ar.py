@@ -10,6 +10,8 @@ import plotly.graph_objects as go
 from datetime import datetime
 import glob
 import os
+import json
+import re
 
 # Configuração da página
 st.set_page_config(
@@ -64,22 +66,92 @@ def obter_categoria_aqi(aqi):
     
     return 'Perigosa', '#7E0023'
 
+def extrair_valor_indicador(texto, padrao):
+    """Extrai valor numérico de um poluente do texto dos indicadores"""
+    if not texto or not isinstance(texto, str):
+        return None
+    
+    match = re.search(padrao, texto, re.IGNORECASE)
+    
+    if match:
+        try:
+            return float(match.group(1))
+        except:
+            return None
+    return None
+
+def processar_dados_hoje(dados_json):
+    """Processa dados diários do JSON"""
+    if not dados_json:
+        return None
+    
+    registros = []
+    
+    # Padrões de regex para cada poluente
+    padroes = {
+        'PM2.5': r'PM[₂2]\.?[₅5]\n?([\d.]+)\s*[μµ]?g/m³',
+        'PM10': r'PM[₁1][₀0]\n?([\d.]+)\s*[μµ]?g/m³',
+        'O3': r'O[₃3]\n?([\d.]+)\s*[μµ]?g/m³',
+        'SO2': r'SO[₂2]\n?([\d.]+)\s*[μµ]?g/m³',
+        'NO2': r'NO[₂2]\n?([\d.]+)\s*[μµ]?g/m³'
+    }
+    
+    for item in dados_json:
+        estado = item.get('estado', '')
+        estado_nome = item.get('estado_nome', '')
+        data_coleta = item.get('data_coleta', '')
+        indicadores = item.get('indicadores', {})
+        
+        # Buscar o texto completo dos indicadores
+        texto_indicadores = None
+        for key in indicadores.keys():
+            if 'PM' in key and 'μg/m³' in key:
+                texto_indicadores = key
+                break
+        
+        if texto_indicadores:
+            pm25 = extrair_valor_indicador(texto_indicadores, padroes['PM2.5'])
+            pm10 = extrair_valor_indicador(texto_indicadores, padroes['PM10'])
+            o3 = extrair_valor_indicador(texto_indicadores, padroes['O3'])
+            so2 = extrair_valor_indicador(texto_indicadores, padroes['SO2'])
+            no2 = extrair_valor_indicador(texto_indicadores, padroes['NO2'])
+            
+            registros.append({
+                'estado': estado,
+                'estado_nome': estado_nome,
+                'data_coleta': data_coleta,
+                'PM2.5': pm25,
+                'PM10': pm10,
+                'O3': o3,
+                'SO2': so2,
+                'NO2': no2
+            })
+    
+    df = pd.DataFrame(registros)
+    
+    # Calcular AQI
+    df['AQI'] = df['PM2.5'].apply(calcular_aqi_pm25)
+    df['Categoria'] = df['AQI'].apply(lambda x: obter_categoria_aqi(x)[0])
+    df['Cor'] = df['AQI'].apply(lambda x: obter_categoria_aqi(x)[1])
+    
+    return df
+
 @st.cache_data(ttl=300)
 def carregar_dados():
-    """Carrega dados dos CSVs mais recentes"""
+    """Carrega dados dos arquivos mais recentes"""
     
-    # Procurar arquivos CSV na pasta downloads_inpe
+    # Procurar arquivos na pasta downloads_inpe
     pasta_downloads = 'downloads_inpe'
     
     if not os.path.exists(pasta_downloads):
         return None
     
     arquivos_semana = glob.glob(os.path.join(pasta_downloads, 'dados_inpe_semana_*.csv'))
-    arquivos_hoje = glob.glob(os.path.join(pasta_downloads, 'dados_inpe_hoje_*.csv'))
+    arquivos_hoje_json = glob.glob(os.path.join(pasta_downloads, 'dados_inpe_hoje_*.json'))
     
     dados = {}
     
-    # Carregar dados de semana epidemiológica
+    # Carregar dados de semana epidemiológica (para série temporal)
     if arquivos_semana:
         arquivo_mais_recente = max(arquivos_semana, key=os.path.getctime)
         try:
@@ -89,11 +161,14 @@ def carregar_dados():
         except Exception as e:
             st.error(f"Erro ao ler {arquivo_mais_recente}: {e}")
     
-    # Carregar dados de hoje
-    if arquivos_hoje:
-        arquivo_mais_recente = max(arquivos_hoje, key=os.path.getctime)
+    # Carregar dados de hoje (JSON - para visão geral)
+    if arquivos_hoje_json:
+        arquivo_mais_recente = max(arquivos_hoje_json, key=os.path.getctime)
         try:
-            df_hoje = pd.read_csv(arquivo_mais_recente)
+            with open(arquivo_mais_recente, 'r', encoding='utf-8') as f:
+                dados_json = json.load(f)
+            
+            df_hoje = processar_dados_hoje(dados_json)
             dados['hoje'] = df_hoje
             dados['arquivo_hoje'] = os.path.basename(arquivo_mais_recente)
         except Exception as e:
@@ -175,18 +250,18 @@ def main():
     
     # TAB 1: Visão Geral
     with tab1:
-        if 'semana' in dados:
-            df_semana = processar_dados_semana(dados['semana'])
+        if 'hoje' in dados:
+            df_hoje = dados['hoje']
             
             # Métricas principais
             col1, col2, col3, col4 = st.columns(4)
             
             with col1:
-                total_municipios = df_semana['municipio'].nunique()
-                st.metric("🏙️ Municípios", f"{total_municipios:,}")
+                total_estados = len(df_hoje)
+                st.metric("🗺️ Estados", f"{total_estados}")
             
             with col2:
-                pm25_medio = df_semana['PM2.5'].mean()
+                pm25_medio = df_hoje['PM2.5'].mean()
                 delta_oms = pm25_medio - PADROES['PM2.5']['24h']
                 st.metric(
                     "💨 PM2.5 Médio", 
@@ -196,7 +271,7 @@ def main():
                 )
             
             with col3:
-                pm10_medio = df_semana['PM10'].mean()
+                pm10_medio = df_hoje['PM10'].mean()
                 delta_oms_pm10 = pm10_medio - PADROES['PM10']['24h']
                 st.metric(
                     "🌪️ PM10 Médio", 
@@ -206,34 +281,30 @@ def main():
                 )
             
             with col4:
-                if 'data' in df_semana.columns:
-                    data_mais_recente = df_semana['data'].max()
-                    st.metric("📅 Última Medição", 
-                             data_mais_recente.strftime("%d/%m/%Y") if pd.notna(data_mais_recente) else "N/A")
+                if 'data_coleta' in df_hoje.columns:
+                    data_mais_recente = pd.to_datetime(df_hoje['data_coleta'].iloc[0], errors='coerce')
+                    st.metric("📅 Última Coleta", 
+                             data_mais_recente.strftime("%d/%m/%Y %H:%M") if pd.notna(data_mais_recente) else "Hoje")
             
             st.divider()
             
             # Gráfico de barras por estado
-            st.subheader("🗺️ Concentração Média de PM2.5 por Estado")
+            st.subheader("🗺️ Concentração de PM2.5 por Estado (Hoje)")
             
-            df_estados = df_semana.groupby('estado').agg({
-                'PM2.5': 'mean',
-                'PM10': 'mean',
-                'municipio': 'count'
-            }).reset_index()
-            df_estados.columns = ['Estado', 'PM2.5', 'PM10', 'Municípios']
+            df_estados = df_hoje[['estado_nome', 'PM2.5', 'PM10', 'O3']].copy()
+            df_estados.columns = ['Estado', 'PM2.5', 'PM10', 'O3']
             df_estados = df_estados.sort_values('PM2.5', ascending=False)
             
             fig_estados = px.bar(
-                df_estados.head(15),
+                df_estados,
                 x='PM2.5',
                 y='Estado',
                 orientation='h',
-                title='Top 15 Estados - PM2.5 Médio',
+                title='Todos os Estados - PM2.5 Atual',
                 labels={'PM2.5': 'PM2.5 (µg/m³)', 'Estado': 'Estado'},
                 color='PM2.5',
                 color_continuous_scale='Reds',
-                hover_data={'Municípios': True}
+                hover_data={'PM10': ':.2f', 'O3': ':.2f'}
             )
             fig_estados.add_vline(
                 x=15, 
@@ -247,13 +318,13 @@ def main():
             st.plotly_chart(fig_estados, use_container_width=True)
             
             # Distribuição de qualidade do ar
-            st.subheader("📊 Distribuição de Categorias de Qualidade do Ar")
+            st.subheader("📊 Distribuição de Categorias de Qualidade do Ar (Hoje)")
             
             col1, col2 = st.columns(2)
             
             with col1:
                 # Gráfico de pizza - categorias
-                df_categorias = df_semana['Categoria'].value_counts().reset_index()
+                df_categorias = df_hoje['Categoria'].value_counts().reset_index()
                 df_categorias.columns = ['Categoria', 'Count']
                 
                 fig_pizza = px.pie(
@@ -274,61 +345,74 @@ def main():
                 st.plotly_chart(fig_pizza, use_container_width=True)
             
             with col2:
-                # Histograma PM2.5
-                fig_hist = px.histogram(
-                    df_semana,
-                    x='PM2.5',
-                    nbins=50,
-                    title='Distribuição de Concentração de PM2.5',
-                    labels={'PM2.5': 'PM2.5 (µg/m³)'},
-                    color_discrete_sequence=['#636EFA']
+                # Gráfico de barras comparativo dos 3 poluentes
+                df_poluentes = pd.DataFrame({
+                    'Poluente': ['PM2.5', 'PM10', 'O3'],
+                    'Concentração Média': [
+                        df_hoje['PM2.5'].mean(),
+                        df_hoje['PM10'].mean(),
+                        df_hoje['O3'].mean()
+                    ],
+                    'Limite OMS': [15, 45, 100]
+                })
+                
+                fig_comparacao = go.Figure()
+                fig_comparacao.add_trace(go.Bar(
+                    name='Média Brasil',
+                    x=df_poluentes['Poluente'],
+                    y=df_poluentes['Concentração Média'],
+                    marker_color='lightblue'
+                ))
+                fig_comparacao.add_trace(go.Bar(
+                    name='Limite OMS',
+                    x=df_poluentes['Poluente'],
+                    y=df_poluentes['Limite OMS'],
+                    marker_color='red',
+                    opacity=0.5
+                ))
+                fig_comparacao.update_layout(
+                    title='Concentração Média vs Limite OMS',
+                    yaxis_title='µg/m³',
+                    barmode='group',
+                    height=400
                 )
-                fig_hist.add_vline(
-                    x=15, 
-                    line_dash="dash", 
-                    line_color="red",
-                    annotation_text="OMS 24h"
-                )
-                fig_hist.add_vline(
-                    x=35,
-                    line_dash="dash",
-                    line_color="darkred",
-                    annotation_text="Crítico"
-                )
-                st.plotly_chart(fig_hist, use_container_width=True)
+                st.plotly_chart(fig_comparacao, use_container_width=True)
             
             # Estatísticas gerais
-            st.subheader("📊 Estatísticas Gerais")
+            st.subheader("📊 Estatísticas por Estado (Hoje)")
             
             col1, col2, col3 = st.columns(3)
             
             with col1:
                 st.markdown("### PM2.5")
-                acima_oms = (df_semana['PM2.5'] > PADROES['PM2.5']['24h']).sum()
-                total = len(df_semana)
+                acima_oms = (df_hoje['PM2.5'] > PADROES['PM2.5']['24h']).sum()
+                total = len(df_hoje)
                 pct_acima = (acima_oms / total * 100) if total > 0 else 0
                 
-                st.metric("Acima do limite OMS", f"{acima_oms:,}")
+                st.metric("Estados acima do limite", f"{acima_oms}")
                 st.metric("Percentual", f"{pct_acima:.1f}%")
-                st.metric("Máximo registrado", f"{df_semana['PM2.5'].max():.1f} µg/m³")
+                st.metric("Máximo", f"{df_hoje['PM2.5'].max():.1f} µg/m³")
+                st.metric("Mínimo", f"{df_hoje['PM2.5'].min():.1f} µg/m³")
             
             with col2:
                 st.markdown("### PM10")
-                acima_oms_pm10 = (df_semana['PM10'] > PADROES['PM10']['24h']).sum()
+                acima_oms_pm10 = (df_hoje['PM10'] > PADROES['PM10']['24h']).sum()
                 pct_acima_pm10 = (acima_oms_pm10 / total * 100) if total > 0 else 0
                 
-                st.metric("Acima do limite OMS", f"{acima_oms_pm10:,}")
+                st.metric("Estados acima do limite", f"{acima_oms_pm10}")
                 st.metric("Percentual", f"{pct_acima_pm10:.1f}%")
-                st.metric("Máximo registrado", f"{df_semana['PM10'].max():.1f} µg/m³")
+                st.metric("Máximo", f"{df_hoje['PM10'].max():.1f} µg/m³")
+                st.metric("Mínimo", f"{df_hoje['PM10'].min():.1f} µg/m³")
             
             with col3:
                 st.markdown("### O3 (Ozônio)")
-                acima_oms_o3 = (df_semana['O3'] > PADROES['O3']['8h']).sum()
+                acima_oms_o3 = (df_hoje['O3'] > PADROES['O3']['8h']).sum()
                 pct_acima_o3 = (acima_oms_o3 / total * 100) if total > 0 else 0
                 
-                st.metric("Acima do limite OMS", f"{acima_oms_o3:,}")
+                st.metric("Estados acima do limite", f"{acima_oms_o3}")
                 st.metric("Percentual", f"{pct_acima_o3:.1f}%")
-                st.metric("Máximo registrado", f"{df_semana['O3'].max():.1f} µg/m³")
+                st.metric("Máximo", f"{df_hoje['O3'].max():.1f} µg/m³")
+                st.metric("Mínimo", f"{df_hoje['O3'].min():.1f} µg/m³")
     
     # TAB 2: Série Temporal
     with tab2:

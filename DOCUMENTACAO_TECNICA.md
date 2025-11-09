@@ -56,7 +56,8 @@ Este sistema é composto por dois módulos principais que trabalham em conjunto 
                         ▼
 ┌─────────────────────────────────────────────────────────────┐
 │              downloads_inpe/ (Armazenamento)                │
-│  - dados_inpe_hoje_YYYYMMDD_HHMMSS.csv                     │
+│  - dados_inpe_hoje_YYYYMMDD_HHMMSS.json (dados diários)   │
+│  - dados_inpe_hoje_YYYYMMDD_HHMMSS.csv (dados diários)    │
 │  - dados_inpe_semana_epidemiologica_municipios_*.csv       │
 └───────────────────────┬─────────────────────────────────────┘
                         │
@@ -66,8 +67,10 @@ Este sistema é composto por dois módulos principais que trabalham em conjunto 
 │        dashboard_qualidade_ar.py (Módulo de Visualização)  │
 │  ┌──────────────────────────────────────────────────────┐  │
 │  │  Funções de Processamento                            │  │
-│  │  - carregar_dados()                                  │  │
-│  │  - processar_dados_semana()                         │  │
+│  │  - carregar_dados() (lê JSON + CSV)                 │  │
+│  │  - processar_dados_hoje() (processa JSON)           │  │
+│  │  - extrair_valor_indicador() (regex para JSON)      │  │
+│  │  - processar_dados_semana() (processa CSV)          │  │
 │  │  - calcular_aqi_pm25()                              │  │
 │  │  - obter_categoria_aqi()                            │  │
 │  └──────────────────────────────────────────────────────┘  │
@@ -208,6 +211,73 @@ O dashboard é uma aplicação Streamlit organizada em múltiplas abas (tabs) qu
 
 ### Funções de Processamento
 
+#### `extrair_valor_indicador(texto, padrao)`
+
+**Propósito**: Extrai valores numéricos de poluentes do texto dos indicadores usando expressões regulares.
+
+**Parâmetros:**
+- `texto`: String contendo os indicadores ambientais
+- `padrao`: Expressão regular para capturar o valor do poluente
+
+**Exemplo de texto de entrada:**
+```
+PM₂.₅
+6.85 μg/m³
+PM₁₀
+7.01 μg/m³
+O₃
+19.00 μg/m³
+```
+
+**Padrões de regex utilizados:**
+```python
+{
+    'PM2.5': r'PM[₂2]\.?[₅5]\n?([\d.]+)\s*[μµ]?g/m³',
+    'PM10': r'PM[₁1][₀0]\n?([\d.]+)\s*[μµ]?g/m³',
+    'O3': r'O[₃3]\n?([\d.]+)\s*[μµ]?g/m³',
+    'SO2': r'SO[₂2]\n?([\d.]+)\s*[μµ]?g/m³',
+    'NO2': r'NO[₂2]\n?([\d.]+)\s*[μµ]?g/m³'
+}
+```
+
+**Retorno**: Valor numérico (float) ou `None` se não encontrado.
+
+#### `processar_dados_hoje(dados_json)`
+
+**Propósito**: Processa o JSON de dados diários coletados do INPE SISAM.
+
+**Estrutura do JSON de entrada:**
+```python
+[
+    {
+        "estado": "AC",
+        "estado_nome": "Acre",
+        "data_coleta": "2025-11-08T17:54:05.659815",
+        "indicadores": {
+            "PM₂.₅\n6.85 μg/m³\n...": "...",
+            ...
+        }
+    },
+    ...
+]
+```
+
+**Processamento:**
+1. Itera sobre cada estado no JSON
+2. Para cada estado, busca a chave do dicionário `indicadores` que contém o texto completo
+3. Aplica `extrair_valor_indicador()` com regex para cada poluente
+4. Cria DataFrame com valores extraídos
+5. Calcula AQI e categoriza cada registro
+
+**Retorno**: DataFrame processado com colunas:
+- `estado`: Sigla do estado (UF)
+- `estado_nome`: Nome completo do estado
+- `data_coleta`: Timestamp da coleta
+- `PM2.5`, `PM10`, `O3`, `SO2`, `NO2`: Concentrações extraídas
+- `AQI`: Índice calculado
+- `Categoria`: Classificação (Boa, Moderada, etc.)
+- `Cor`: Cor hexadecimal para visualização
+
 #### `carregar_dados()` (com cache)
 
 ```python
@@ -215,14 +285,17 @@ O dashboard é uma aplicação Streamlit organizada em múltiplas abas (tabs) qu
 def carregar_dados()
 ```
 
-**Propósito**: Carrega os arquivos CSV mais recentes da pasta `downloads_inpe/`.
+**Propósito**: Carrega os arquivos mais recentes da pasta `downloads_inpe/`.
 
 **Funcionalidades:**
 - Utiliza `glob` para encontrar arquivos que seguem padrões específicos:
   - `dados_inpe_semana_*.csv` para dados de semana epidemiológica
-  - `dados_inpe_hoje_*.csv` para dados do dia atual
+  - `dados_inpe_hoje_*.json` para dados diários (JSON)
 - Identifica o arquivo mais recente usando `os.path.getctime()`
-- Carrega os CSVs com `pd.read_csv()`
+- **Dados Semanais**: Carrega CSV com `pd.read_csv()`
+- **Dados Diários**: 
+  - Carrega JSON com `json.load()`
+  - Processa com `processar_dados_hoje()` para criar DataFrame
 - Retorna dicionário com DataFrames e nomes dos arquivos
 
 **Cache**: Utiliza `@st.cache_data(ttl=300)` para cachear resultados por 5 minutos, evitando recarregar dados desnecessariamente.
@@ -230,10 +303,10 @@ def carregar_dados()
 **Retorno:**
 ```python
 {
-    'semana': DataFrame,
+    'semana': DataFrame,                      # Dados semanais (CSV)
     'arquivo_semana': 'dados_inpe_semana_...csv',
-    'hoje': DataFrame,
-    'arquivo_hoje': 'dados_inpe_hoje_...csv'
+    'hoje': DataFrame,                        # Dados diários (JSON processado)
+    'arquivo_hoje': 'dados_inpe_hoje_...json'
 }
 ```
 
@@ -323,26 +396,31 @@ Se 35.4 < concentracao <= 55.4:
 
 3. **Tabs (Abas Principais)**
 
-   **Tab 1: Visão Geral**
+   **Tab 1: Visão Geral** _(Usa dados diários do JSON)_
    - **Métricas Principais**: 4 colunas com KPIs
-     - Total de municípios
-     - PM2.5 médio (com delta vs OMS)
-     - PM10 médio (com delta vs OMS)
-     - Data da última medição
+     - Total de estados (27)
+     - PM2.5 médio nacional (com delta vs OMS)
+     - PM10 médio nacional (com delta vs OMS)
+     - Data/hora da última coleta
    
    - **Gráfico de Barras por Estado**
-     - Top 15 estados com maior concentração média de PM2.5
+     - Todos os 27 estados com concentração atual de PM2.5
+     - Estados ordenados do maior para o menor valor
      - Linha de referência do limite OMS (15 µg/m³)
+     - Hover mostra PM10 e O3 adicionalmente
      - Utiliza Plotly Express (`px.bar`)
    
    - **Distribuição de Categorias**
-     - Gráfico de pizza mostrando proporção de cada categoria AQI
-     - Histograma de distribuição de concentrações PM2.5
-     - Linhas de referência para limites OMS e crítico
+     - **Gráfico de Pizza**: Proporção de cada categoria AQI entre os estados
+     - **Gráfico de Barras Comparativo**: Média Brasil vs Limite OMS
+       - 3 poluentes lado a lado (PM2.5, PM10, O3)
+       - Comparação visual entre valores medidos e limites OMS
    
-   - **Estatísticas Gerais**
+   - **Estatísticas por Estado (Hoje)**
      - 3 colunas (PM2.5, PM10, O3)
-     - Métricas: acima do limite OMS, percentual, máximo registrado
+     - **Estados acima do limite OMS**: Contagem e percentual
+     - **Valores máximo e mínimo**: Faixa de variação entre estados
+     - Foco em dados do dia atual para análise em tempo real
 
    **Tab 2: Série Temporal**
    - **Filtros Interativos**
@@ -392,16 +470,24 @@ Se 35.4 < concentracao <= 55.4:
    └─> dashboard_qualidade_ar.py
        └─> main()
            └─> carregar_dados() [CACHEADO]
-               └─> glob.glob() encontra arquivos mais recentes
-                   └─> pd.read_csv() carrega CSVs
-                       └─> Retorna dicionário com DataFrames
-                           └─> processar_dados_semana()
-                               └─> Normaliza colunas
-                                   └─> calcular_aqi_pm25() para cada registro
-                                       └─> obter_categoria_aqi() para cada AQI
-                                           └─> DataFrame processado pronto para visualização
-                                               └─> Renderização nas tabs do Streamlit
-                                                   └─> Plotly gera gráficos interativos
+               ├─> glob.glob() encontra arquivos mais recentes
+               │   ├─> JSON (dados diários): json.load()
+               │   │   └─> processar_dados_hoje()
+               │   │       └─> extrair_valor_indicador() com regex
+               │   │           └─> calcular_aqi_pm25()
+               │   │               └─> obter_categoria_aqi()
+               │   │                   └─> DataFrame de estados
+               │   └─> CSV (dados semanais): pd.read_csv()
+               │       └─> processar_dados_semana()
+               │           └─> Normaliza colunas
+               │               └─> calcular_aqi_pm25() para cada registro
+               │                   └─> obter_categoria_aqi() para cada AQI
+               │                       └─> DataFrame de municípios
+               └─> Retorna dicionário com ambos DataFrames
+                   └─> Tab 1 (Visão Geral): usa df_hoje (estados)
+                   └─> Tabs 2-4: usam df_semana (municípios)
+                       └─> Renderização nas tabs do Streamlit
+                           └─> Plotly gera gráficos interativos
 ```
 
 ### Fluxo de Processamento de Dados
@@ -443,18 +529,29 @@ CSV Bruto (INPE)
 main()
 │
 ├─> carregar_dados()
-│   └─> (usa glob, os.path, pd.read_csv)
+│   ├─> glob.glob() - Encontra arquivos JSON e CSV
+│   ├─> json.load() - Carrega dados diários
+│   │   └─> processar_dados_hoje(dados_json)
+│   │       ├─> extrair_valor_indicador(texto, padrao) [para cada poluente]
+│   │       ├─> calcular_aqi_pm25(concentracao)
+│   │       └─> obter_categoria_aqi(aqi)
+│   └─> pd.read_csv() - Carrega dados semanais
+│       └─> processar_dados_semana(df)
+│           ├─> calcular_aqi_pm25(concentracao)
+│           └─> obter_categoria_aqi(aqi)
+│               └─> (usa CATEGORIAS_AQI)
 │
-├─> processar_dados_semana(df)
-│   ├─> calcular_aqi_pm25(concentracao)
-│   └─> obter_categoria_aqi(aqi)
-│       └─> (usa CATEGORIAS_AQI)
-│
-└─> Visualizações (Plotly)
-    ├─> px.bar() - Gráficos de barras
-    ├─> px.pie() - Gráficos de pizza
-    ├─> px.histogram() - Histogramas
-    └─> go.Figure() - Gráficos de linha customizados
+└─> Visualizações por Tab
+    ├─> Tab 1 (Visão Geral): usa df_hoje
+    │   ├─> px.bar() - Barras por estado
+    │   ├─> px.pie() - Distribuição de categorias
+    │   └─> go.Figure() - Comparativo vs OMS
+    │
+    └─> Tabs 2-4: usam df_semana
+        ├─> px.bar() - Gráficos de barras
+        ├─> px.pie() - Gráficos de pizza
+        ├─> px.histogram() - Histogramas
+        └─> go.Figure() - Gráficos de linha customizados
 ```
 
 ### Dependências
@@ -472,10 +569,17 @@ main()
                └─> obter_categoria_aqi()
                    └─> (usa CATEGORIAS_AQI)
                        │
-                       └─> processar_dados_semana()
-                           │
-                           └─> main()
-                               └─> (usa em todas as tabs)
+                       ├─> processar_dados_hoje()
+                       │   ├─> extrair_valor_indicador()
+                       │   │   └─> (usa regex patterns)
+                       │   └─> (cria DataFrame de estados)
+                       │
+                       ├─> processar_dados_semana()
+                       │   └─> (cria DataFrame de municípios)
+                       │
+                       └─> main()
+                           ├─> Tab 1: usa df_hoje (estados)
+                           └─> Tabs 2-4: usam df_semana (municípios)
 ```
 
 ### Fluxo de Dados entre Funções
@@ -483,8 +587,17 @@ main()
 ```
 carregar_dados()
     │
-    └─> retorna: {'semana': DataFrame, 'hoje': DataFrame}
-        │
+    ├─> Processa JSON (dados diários)
+    │   └─> processar_dados_hoje(dados_json)
+    │       ├─> extrai valores: extrair_valor_indicador(texto, padrao)
+    │       │   └─> retorna: float (ex: 6.85)
+    │       ├─> calcula AQI: calcular_aqi_pm25(PM2.5)
+    │       │   └─> retorna: número (0-500+)
+    │       └─> categoriza: obter_categoria_aqi(AQI)
+    │           └─> retorna: ('Boa', '#00E400')
+    │               └─> df_hoje (27 estados)
+    │
+    └─> Processa CSV (dados semanais)
         └─> processar_dados_semana(df_semana)
             │
             ├─> calcula AQI: calcular_aqi_pm25(PM2.5)
@@ -493,19 +606,48 @@ carregar_dados()
             └─> categoriza: obter_categoria_aqi(AQI)
                 └─> retorna: ('Boa', '#00E400')
                     │
-                    └─> DataFrame enriquecido
+                    └─> df_semana (~195k registros)
                         │
                         └─> usado em:
                             ├─> Agregações (groupby)
                             ├─> Filtros (query)
                             └─> Visualizações (Plotly)
+    │
+    └─> retorna: {
+        'semana': df_semana,
+        'hoje': df_hoje,
+        'arquivo_semana': 'nome.csv',
+        'arquivo_hoje': 'nome.json'
+    }
 ```
 
 ---
 
 ## Estrutura de Dados
 
-### Formato do CSV de Entrada (INPE)
+### Formato do JSON de Dados Diários (INPE)
+
+O JSON gerado pelo coletor contém dados por estado:
+
+```json
+[
+  {
+    "estado": "AC",
+    "estado_nome": "Acre",
+    "data_coleta": "2025-11-08T17:54:05.659815",
+    "indicadores": {
+      "INDICADORES AMBIENTAIS\nPM₂.₅\n6.85 μg/m³\nPM₁₀\n7.01 μg/m³\nSO₂\n0.06 μg/m³\nNO₂\n0.71 μg/m³\nO₃\n19.00 μg/m³\nCO\n0.17 ppm\nTemp.\n-\nPrec.\n-\nFocos\n-": "...",
+      "PM₂.₅\n6.85 μg/m³": "PM₂.₅\n6.85 μg/m³",
+      ...
+    }
+  },
+  ...
+]
+```
+
+**Nota**: Os valores ficam nas chaves do dicionário `indicadores` como strings formatadas. A função `extrair_valor_indicador()` usa regex para extrair os valores numéricos.
+
+### Formato do CSV de Entrada (INPE - Dados Semanais)
 
 O CSV baixado do INPE contém colunas como:
 
@@ -515,7 +657,27 @@ date,municipio,estado,pm2_5_media_diaria_previsao_situacao_atual,pm10_media_diar
 2025-10-28,Rio de Janeiro,RJ,15.8,30.1,92.5,...
 ```
 
-### DataFrame Processado
+### DataFrame Processado (Dados Diários)
+
+Após `processar_dados_hoje()`, o DataFrame contém:
+
+| Coluna | Tipo | Descrição |
+|--------|------|------------|
+| `estado` | string | Sigla do estado (UF) |
+| `estado_nome` | string | Nome completo do estado |
+| `data_coleta` | datetime | Timestamp da coleta |
+| `PM2.5` | float | Concentração de PM2.5 (µg/m³) |
+| `PM10` | float | Concentração de PM10 (µg/m³) |
+| `O3` | float | Concentração de O3 (µg/m³) |
+| `SO2` | float | Concentração de SO2 (µg/m³) |
+| `NO2` | float | Concentração de NO2 (µg/m³) |
+| `AQI` | int | Índice de Qualidade do Ar (0-500+) |
+| `Categoria` | string | Categoria AQI (Boa, Moderada, etc.) |
+| `Cor` | string | Cor hexadecimal para visualização |
+
+**Uso**: Tab "Visão Geral" (27 registros - um por estado)
+
+### DataFrame Processado (Dados Semanais)
 
 Após `processar_dados_semana()`, o DataFrame contém:
 
@@ -531,6 +693,8 @@ Após `processar_dados_semana()`, o DataFrame contém:
 | `AQI` | int | Índice de Qualidade do Ar (0-500+) |
 | `Categoria` | string | Categoria AQI (Boa, Moderada, etc.) |
 | `Cor` | string | Cor hexadecimal para visualização |
+
+**Uso**: Tabs "Série Temporal", "Rankings" e "Dados Brutos" (~195.000 registros - dados históricos de 5 semanas)
 
 ### Estruturas de Dados Internas
 
@@ -591,4 +755,29 @@ Usado por:
 ## Conclusão
 
 Este sistema implementa um pipeline completo de coleta, processamento e visualização de dados de qualidade do ar, utilizando técnicas modernas de web scraping e visualização interativa. A arquitetura modular permite fácil manutenção e extensão, enquanto o uso de cache e agregações eficientes garante boa performance mesmo com grandes volumes de dados.
+
+### Estratégia de Dados Híbrida
+
+O sistema utiliza uma abordagem híbrida inteligente:
+
+1. **Dados Diários (JSON)**: 
+   - Fonte: Coleta por estado via Selenium
+   - Volume: 27 registros (um por estado)
+   - Uso: Tab "Visão Geral" para análise em tempo real
+   - Vantagem: Dados mais recentes, leves e rápidos de processar
+
+2. **Dados Históricos (CSV)**:
+   - Fonte: Download de semana epidemiológica
+   - Volume: ~195.000 registros (5 semanas × todos municípios)
+   - Uso: Tabs "Série Temporal", "Rankings" e "Dados Brutos"
+   - Vantagem: Análise detalhada por município e tendências temporais
+
+Esta separação otimiza a experiência do usuário:
+- **Visão rápida**: Dados diários carregam instantaneamente
+- **Análise profunda**: Dados históricos disponíveis para investigação detalhada
+- **Melhor UX**: Diferentes níveis de granularidade para diferentes necessidades
+
+### Processamento com Regex
+
+A extração de dados do JSON usa expressões regulares para lidar com a estrutura não-padronizada dos indicadores ambientais retornados pelo INPE. Isso torna o sistema resiliente a pequenas mudanças no formato da página fonte, mantendo a robustez da coleta.
 
