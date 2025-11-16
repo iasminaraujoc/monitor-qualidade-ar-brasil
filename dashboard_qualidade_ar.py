@@ -7,12 +7,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
 import glob
 import os
 import json
 import re
 from alertas import gerar_todos_alertas, NIVEIS_ALERTA, obter_recomendacao_categoria
+from analise_tendencias import AnalisadorTendencias
 
 # Configuração da página
 st.set_page_config(
@@ -302,7 +303,14 @@ def main():
         """)
     
     # Tabs principais
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["📍 Visão Geral", "🚨 Alertas", "📈 Série Temporal", "🏆 Rankings", "📋 Dados Brutos"])
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        "📍 Visão Geral", 
+        "🚨 Alertas", 
+        "📈 Série Temporal", 
+        "🏆 Rankings", 
+        "📋 Dados Brutos",
+        "📊 Análise de Tendências"
+    ])
     
     # TAB 1: Visão Geral
     with tab1:
@@ -1137,6 +1145,506 @@ def main():
                     file_name=f'dados_qualidade_ar_completo_{datetime.now().strftime("%Y%m%d")}.csv',
                     mime='text/csv'
                 )
+    
+    # TAB 6: Análise de Tendências
+    with tab6:
+        st.subheader("📊 Análise de Tendências")
+        st.caption("Análise estatística de tendências temporais, projeções e padrões")
+        
+        if 'semana' in dados:
+            df_semana = processar_dados_semana(dados['semana'])
+            
+            # Criar analisador de tendências
+            analisador = AnalisadorTendencias(df_semana, coluna_data='data')
+            
+            # Filtros principais
+            st.markdown("### 🎯 Filtros de Análise")
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                poluente_tendencia = st.selectbox(
+                    "Poluente:",
+                    options=['PM2.5', 'PM10', 'O3'],
+                    key='poluente_tendencia'
+                )
+            
+            with col2:
+                estados_disponiveis = ['Todos'] + sorted(df_semana['estado'].unique().tolist())
+                estado_tendencia = st.selectbox(
+                    "Estado:",
+                    options=estados_disponiveis,
+                    key='estado_tendencia'
+                )
+            
+            with col3:
+                if estado_tendencia != 'Todos':
+                    municipios_disponiveis = ['Todos'] + sorted(
+                        df_semana[df_semana['estado'] == estado_tendencia]['municipio'].unique().tolist()
+                    )
+                    municipio_tendencia = st.selectbox(
+                        "Município:",
+                        options=municipios_disponiveis,
+                        key='municipio_tendencia'
+                    )
+                else:
+                    municipio_tendencia = 'Todos'
+                    st.selectbox("Município:", options=['Selecione um estado'], disabled=True)
+            
+            # Parâmetros para análise
+            estado_analise = None if estado_tendencia == 'Todos' else estado_tendencia
+            municipio_analise = None if municipio_tendencia == 'Todos' else municipio_tendencia
+            
+            st.divider()
+            
+            # ========================================
+            # SEÇÃO 1: TENDÊNCIA LINEAR E PROJEÇÕES
+            # ========================================
+            
+            st.markdown("### 📈 Tendência Linear e Projeções")
+            
+            # Calcular tendência
+            tendencia = analisador.calcular_tendencia_linear(
+                poluente_tendencia, 
+                estado=estado_analise, 
+                municipio=municipio_analise
+            )
+            
+            if tendencia['n_observacoes'] >= 3:
+                # Métricas de tendência
+                col1, col2, col3, col4 = st.columns(4)
+                
+                with col1:
+                    # Determinar ícone e cor
+                    if tendencia['tendencia'] == 'crescente':
+                        icone = "📈"
+                        cor = "red"
+                    elif tendencia['tendencia'] == 'decrescente':
+                        icone = "📉"
+                        cor = "green"
+                    else:
+                        icone = "➡️"
+                        cor = "blue"
+                    
+                    st.metric(
+                        label="Tendência",
+                        value=f"{icone} {tendencia['tendencia'].title()}",
+                        delta=f"{tendencia['taxa_mudanca_percentual']:.2f}%/dia"
+                    )
+                
+                with col2:
+                    st.metric(
+                        label="Valor Médio",
+                        value=f"{tendencia['valor_medio']:.2f} µg/m³",
+                        delta=None
+                    )
+                
+                with col3:
+                    variacao = tendencia['valor_final'] - tendencia['valor_inicial']
+                    st.metric(
+                        label="Variação Total",
+                        value=f"{variacao:.2f} µg/m³",
+                        delta=f"{(variacao/tendencia['valor_inicial']*100):.1f}%" if tendencia['valor_inicial'] != 0 else "N/A"
+                    )
+                
+                with col4:
+                    st.metric(
+                        label="R² (Ajuste)",
+                        value=f"{tendencia['r_squared']:.3f}",
+                        delta="Significativo" if tendencia['p_value'] < 0.05 else "Não significativo"
+                    )
+                
+                # Gráfico de tendência com projeção
+                st.markdown("#### 📊 Visualização da Tendência")
+                
+                # Preparar dados para gráfico
+                df_filtrado = df_semana.copy()
+                if estado_analise:
+                    df_filtrado = df_filtrado[df_filtrado['estado'] == estado_analise]
+                if municipio_analise:
+                    df_filtrado = df_filtrado[df_filtrado['municipio'] == municipio_analise]
+                
+                df_plot = df_filtrado[['data', poluente_tendencia]].dropna()
+                df_plot = df_plot.groupby('data')[poluente_tendencia].mean().reset_index()
+                df_plot = df_plot.sort_values('data')
+                
+                # Calcular linha de tendência
+                x_num = (df_plot['data'] - df_plot['data'].min()).dt.days.values
+                y_trend = tendencia['intercept'] + tendencia['slope'] * x_num
+                df_plot['tendencia'] = y_trend
+                
+                # Projetar valores futuros
+                df_projecao = analisador.projetar_valores_futuros(
+                    poluente_tendencia, 
+                    dias_futuros=7,
+                    estado=estado_analise,
+                    municipio=municipio_analise
+                )
+                
+                # Criar gráfico
+                fig_tendencia = go.Figure()
+                
+                # Dados históricos
+                fig_tendencia.add_trace(go.Scatter(
+                    x=df_plot['data'],
+                    y=df_plot[poluente_tendencia],
+                    mode='markers',
+                    name='Valores Observados',
+                    marker=dict(size=6, color='steelblue', opacity=0.6)
+                ))
+                
+                # Linha de tendência
+                fig_tendencia.add_trace(go.Scatter(
+                    x=df_plot['data'],
+                    y=df_plot['tendencia'],
+                    mode='lines',
+                    name='Linha de Tendência',
+                    line=dict(color='red', width=2, dash='dash')
+                ))
+                
+                # Projeção futura
+                if not df_projecao.empty:
+                    fig_tendencia.add_trace(go.Scatter(
+                        x=df_projecao['data'],
+                        y=df_projecao['valor_projetado'],
+                        mode='lines+markers',
+                        name='Projeção (7 dias)',
+                        line=dict(color='orange', width=2),
+                        marker=dict(size=8, symbol='diamond')
+                    ))
+                    
+                    # Intervalo de confiança
+                    fig_tendencia.add_trace(go.Scatter(
+                        x=df_projecao['data'].tolist() + df_projecao['data'].tolist()[::-1],
+                        y=df_projecao['limite_superior'].tolist() + df_projecao['limite_inferior'].tolist()[::-1],
+                        fill='toself',
+                        fillcolor='rgba(255, 165, 0, 0.2)',
+                        line=dict(color='rgba(255, 165, 0, 0)'),
+                        name='Intervalo de Confiança 95%',
+                        showlegend=True
+                    ))
+                
+                # Linha de referência OMS
+                if poluente_tendencia in PADROES:
+                    limite_oms = PADROES[poluente_tendencia]['24h']
+                    fig_tendencia.add_hline(
+                        y=limite_oms,
+                        line_dash="dot",
+                        line_color="red",
+                        annotation_text=f"Limite OMS: {limite_oms} µg/m³",
+                        annotation_position="right"
+                    )
+                
+                fig_tendencia.update_layout(
+                    title=f'Tendência e Projeção - {poluente_tendencia}',
+                    xaxis_title='Data',
+                    yaxis_title=f'{poluente_tendencia} (µg/m³)',
+                    hovermode='x unified',
+                    height=500,
+                    showlegend=True
+                )
+                
+                st.plotly_chart(fig_tendencia, use_container_width=True)
+                
+                # Informações adicionais
+                with st.expander("ℹ️ Informações Estatísticas"):
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("**Parâmetros da Regressão:**")
+                        st.text(f"• Coeficiente Angular: {tendencia['slope']:.4f}")
+                        st.text(f"• Intercepto: {tendencia['intercept']:.2f}")
+                        st.text(f"• R² (Coef. Determinação): {tendencia['r_squared']:.4f}")
+                        st.text(f"• Valor-p: {tendencia['p_value']:.6f}")
+                        st.text(f"• Erro Padrão: {tendencia['std_err']:.4f}")
+                    
+                    with col2:
+                        st.markdown("**Interpretação:**")
+                        if tendencia['p_value'] < 0.05:
+                            st.success("✅ Tendência estatisticamente significativa (p < 0.05)")
+                        else:
+                            st.info("ℹ️ Tendência não estatisticamente significativa (p ≥ 0.05)")
+                        
+                        if tendencia['r_squared'] > 0.7:
+                            st.success("✅ Excelente ajuste do modelo (R² > 0.7)")
+                        elif tendencia['r_squared'] > 0.5:
+                            st.info("ℹ️ Bom ajuste do modelo (R² > 0.5)")
+                        else:
+                            st.warning("⚠️ Ajuste moderado do modelo (R² < 0.5)")
+                
+                st.divider()
+                
+                # ========================================
+                # SEÇÃO 2: ANÁLISE DE SAZONALIDADE
+                # ========================================
+                
+                st.markdown("### 📅 Análise de Sazonalidade")
+                
+                sazonalidade = analisador.analisar_sazonalidade(
+                    poluente_tendencia,
+                    estado=estado_analise,
+                    municipio=municipio_analise
+                )
+                
+                if sazonalidade:
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("#### Por Dia da Semana")
+                        
+                        # Preparar dados
+                        dias_semana_ordem = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                        dias_semana_pt = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo']
+                        
+                        dados_dias = []
+                        for i, dia_en in enumerate(dias_semana_ordem):
+                            if dia_en in sazonalidade['por_dia_semana']:
+                                dados_dias.append({
+                                    'Dia': dias_semana_pt[i],
+                                    'Média': sazonalidade['por_dia_semana'][dia_en]['mean'],
+                                    'Desvio': sazonalidade['por_dia_semana'][dia_en]['std']
+                                })
+                        
+                        if dados_dias:
+                            df_dias = pd.DataFrame(dados_dias)
+                            
+                            fig_dias = px.bar(
+                                df_dias,
+                                x='Dia',
+                                y='Média',
+                                error_y='Desvio',
+                                title=f'Média de {poluente_tendencia} por Dia da Semana',
+                                labels={'Média': f'{poluente_tendencia} (µg/m³)'}
+                            )
+                            
+                            fig_dias.update_layout(height=400)
+                            st.plotly_chart(fig_dias, use_container_width=True)
+                            
+                            st.info(f"📊 **Maior:** {sazonalidade['dia_semana_maior']} | "
+                                   f"**Menor:** {sazonalidade['dia_semana_menor']}")
+                    
+                    with col2:
+                        st.markdown("#### Por Mês")
+                        
+                        if sazonalidade['por_mes']:
+                            # Preparar dados
+                            meses_ordem = ['January', 'February', 'March', 'April', 'May', 'June',
+                                          'July', 'August', 'September', 'October', 'November', 'December']
+                            meses_pt = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                                       'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+                            
+                            dados_meses = []
+                            for i, mes_en in enumerate(meses_ordem):
+                                if mes_en in sazonalidade['por_mes']:
+                                    dados_meses.append({
+                                        'Mês': meses_pt[i],
+                                        'Média': sazonalidade['por_mes'][mes_en]['mean'],
+                                        'Desvio': sazonalidade['por_mes'][mes_en]['std']
+                                    })
+                            
+                            if dados_meses:
+                                df_meses = pd.DataFrame(dados_meses)
+                                
+                                fig_meses = px.bar(
+                                    df_meses,
+                                    x='Mês',
+                                    y='Média',
+                                    error_y='Desvio',
+                                    title=f'Média de {poluente_tendencia} por Mês',
+                                    labels={'Média': f'{poluente_tendencia} (µg/m³)'}
+                                )
+                                
+                                fig_meses.update_layout(height=400)
+                                st.plotly_chart(fig_meses, use_container_width=True)
+                                
+                                if sazonalidade['mes_maior'] and sazonalidade['mes_menor']:
+                                    st.info(f"📊 **Maior:** {sazonalidade['mes_maior']} | "
+                                           f"**Menor:** {sazonalidade['mes_menor']}")
+                        else:
+                            st.info("ℹ️ Dados insuficientes para análise mensal (necessário pelo menos 2 meses)")
+                
+                st.divider()
+                
+                # ========================================
+                # SEÇÃO 3: VOLATILIDADE E ESTATÍSTICAS
+                # ========================================
+                
+                st.markdown("### 📊 Análise de Volatilidade")
+                
+                volatilidade = analisador.calcular_volatilidade(
+                    poluente_tendencia,
+                    estado=estado_analise,
+                    municipio=municipio_analise
+                )
+                
+                if volatilidade:
+                    col1, col2, col3, col4 = st.columns(4)
+                    
+                    with col1:
+                        st.metric(
+                            "Média",
+                            f"{volatilidade['media']:.2f} µg/m³",
+                            delta=None
+                        )
+                    
+                    with col2:
+                        st.metric(
+                            "Desvio Padrão",
+                            f"{volatilidade['desvio_padrao']:.2f}",
+                            delta=None
+                        )
+                    
+                    with col3:
+                        # Interpretar coeficiente de variação
+                        cv = volatilidade['coeficiente_variacao']
+                        if cv < 15:
+                            cv_label = "Baixa"
+                        elif cv < 30:
+                            cv_label = "Moderada"
+                        else:
+                            cv_label = "Alta"
+                        
+                        st.metric(
+                            "Coef. Variação",
+                            f"{cv:.1f}%",
+                            delta=cv_label
+                        )
+                    
+                    with col4:
+                        st.metric(
+                            "Amplitude",
+                            f"{volatilidade['amplitude']:.2f}",
+                            delta=f"{volatilidade['minimo']:.1f} - {volatilidade['maximo']:.1f}"
+                        )
+                    
+                    # Box plot para visualizar distribuição
+                    st.markdown("#### 📦 Distribuição dos Valores")
+                    
+                    df_filtrado_vol = df_semana.copy()
+                    if estado_analise:
+                        df_filtrado_vol = df_filtrado_vol[df_filtrado_vol['estado'] == estado_analise]
+                    if municipio_analise:
+                        df_filtrado_vol = df_filtrado_vol[df_filtrado_vol['municipio'] == municipio_analise]
+                    
+                    fig_box = go.Figure()
+                    fig_box.add_trace(go.Box(
+                        y=df_filtrado_vol[poluente_tendencia].dropna(),
+                        name=poluente_tendencia,
+                        marker_color='steelblue',
+                        boxmean='sd'  # Mostra média e desvio padrão
+                    ))
+                    
+                    fig_box.update_layout(
+                        title=f'Distribuição de {poluente_tendencia}',
+                        yaxis_title=f'{poluente_tendencia} (µg/m³)',
+                        height=400,
+                        showlegend=False
+                    )
+                    
+                    st.plotly_chart(fig_box, use_container_width=True)
+                    
+                    # Tabela de percentis
+                    with st.expander("📊 Estatísticas Detalhadas"):
+                        col1, col2 = st.columns(2)
+                        
+                        with col1:
+                            st.markdown("**Medidas de Tendência Central:**")
+                            st.text(f"• Média: {volatilidade['media']:.2f} µg/m³")
+                            st.text(f"• Mediana: {volatilidade['mediana']:.2f} µg/m³")
+                        
+                        with col2:
+                            st.markdown("**Medidas de Dispersão:**")
+                            st.text(f"• Mínimo: {volatilidade['minimo']:.2f} µg/m³")
+                            st.text(f"• Percentil 25: {volatilidade['percentil_25']:.2f} µg/m³")
+                            st.text(f"• Percentil 75: {volatilidade['percentil_75']:.2f} µg/m³")
+                            st.text(f"• Máximo: {volatilidade['maximo']:.2f} µg/m³")
+                            st.text(f"• Amplitude Interquartil: {volatilidade['amplitude_interquartil']:.2f}")
+                
+                st.divider()
+                
+                # ========================================
+                # SEÇÃO 4: DETECÇÃO DE ANOMALIAS
+                # ========================================
+                
+                st.markdown("### 🔍 Detecção de Anomalias")
+                
+                anomalias = analisador.detectar_anomalias(
+                    poluente_tendencia,
+                    limite_desvios=2.5,
+                    estado=estado_analise,
+                    municipio=municipio_analise
+                )
+                
+                if not anomalias.empty:
+                    col1, col2 = st.columns([2, 1])
+                    
+                    with col1:
+                        st.info(f"🔍 Detectadas **{len(anomalias)}** anomalias (valores > 2.5 desvios padrão)")
+                    
+                    with col2:
+                        anomalias_alta = len(anomalias[anomalias['tipo'] == 'Alta'])
+                        anomalias_baixa = len(anomalias[anomalias['tipo'] == 'Baixa'])
+                        st.text(f"📈 Altas: {anomalias_alta}")
+                        st.text(f"📉 Baixas: {anomalias_baixa}")
+                    
+                    # Gráfico de anomalias
+                    df_plot_anomalias = df_plot.copy()
+                    df_plot_anomalias['anomalia'] = df_plot_anomalias['data'].isin(anomalias['data'])
+                    
+                    fig_anomalias = go.Figure()
+                    
+                    # Valores normais
+                    df_normal = df_plot_anomalias[~df_plot_anomalias['anomalia']]
+                    fig_anomalias.add_trace(go.Scatter(
+                        x=df_normal['data'],
+                        y=df_normal[poluente_tendencia],
+                        mode='markers',
+                        name='Valores Normais',
+                        marker=dict(size=6, color='steelblue', opacity=0.6)
+                    ))
+                    
+                    # Anomalias
+                    df_anomalias = df_plot_anomalias[df_plot_anomalias['anomalia']]
+                    fig_anomalias.add_trace(go.Scatter(
+                        x=df_anomalias['data'],
+                        y=df_anomalias[poluente_tendencia],
+                        mode='markers',
+                        name='Anomalias',
+                        marker=dict(size=12, color='red', symbol='x', line=dict(width=2))
+                    ))
+                    
+                    fig_anomalias.update_layout(
+                        title=f'Detecção de Anomalias - {poluente_tendencia}',
+                        xaxis_title='Data',
+                        yaxis_title=f'{poluente_tendencia} (µg/m³)',
+                        hovermode='closest',
+                        height=400
+                    )
+                    
+                    st.plotly_chart(fig_anomalias, use_container_width=True)
+                    
+                    # Tabela de anomalias
+                    with st.expander("📋 Lista de Anomalias Detectadas"):
+                        anomalias_display = anomalias.copy()
+                        anomalias_display['data'] = pd.to_datetime(anomalias_display['data']).dt.strftime('%d/%m/%Y')
+                        anomalias_display[poluente_tendencia] = anomalias_display[poluente_tendencia].round(2)
+                        anomalias_display['z_score'] = anomalias_display['z_score'].round(2)
+                        anomalias_display = anomalias_display.sort_values('z_score', ascending=False, key=abs)
+                        
+                        st.dataframe(
+                            anomalias_display,
+                            use_container_width=True,
+                            hide_index=True
+                        )
+                else:
+                    st.success("✅ Nenhuma anomalia detectada no período analisado")
+            
+            else:
+                st.warning(f"⚠️ Dados insuficientes para análise de tendências. "
+                          f"Necessário pelo menos 3 observações, encontradas: {tendencia['n_observacoes']}")
+        
+        else:
+            st.warning("⚠️ Dados de série temporal não disponíveis")
     
     # Rodapé
     st.divider()

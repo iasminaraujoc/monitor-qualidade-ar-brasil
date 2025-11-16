@@ -20,6 +20,8 @@ Este sistema é composto por dois módulos principais que trabalham em conjunto 
 
 - **`coletar_inpe_sisam.py`**: Módulo responsável pela coleta automatizada de dados via web scraping usando Selenium
 - **`dashboard_qualidade_ar.py`**: Aplicação Streamlit que processa e visualiza os dados coletados
+- **`analise_tendencias.py`**: Módulo de análise estatística para detecção de tendências, projeções e anomalias
+- **`alertas.py`**: Sistema de geração e gerenciamento de alertas de qualidade do ar
 
 ### Tecnologias Utilizadas
 
@@ -27,7 +29,9 @@ Este sistema é composto por dois módulos principais que trabalham em conjunto 
 - **Streamlit**: Framework para criação de dashboards interativos
 - **Pandas**: Manipulação e processamento de dados
 - **Plotly**: Visualizações interativas de gráficos
-- **Firefox/GeckoDriver**: Navegador automatizado para coleta
+- **SciPy**: Análises estatísticas e regressões
+- **NumPy**: Computação numérica e cálculos matriciais
+- **Chrome/ChromeDriver**: Navegador automatizado para coleta
 
 ---
 
@@ -447,9 +451,305 @@ Se 35.4 < concentracao <= 55.4:
    - **Tabela Interativa**: DataFrame completo com filtros
    - **Filtros Multiselect**: Por estado e por categoria
    - **Botões de Download**: CSV filtrado ou completo
+   
+   **Tab 5: Alertas**
+   - **Sistema de Alertas Inteligente**: Detecta estados e municípios com concentrações críticas
+   - **Filtros por Tipo**: Estados ou Municípios
+   - **Níveis de Alerta**: Crítico, Alerta OMS e Melhorias
+   - **Paginação**: Navegação entre páginas de alertas
+   - **Estatísticas Dinâmicas**: Contadores por tipo de alerta
+   - **Recomendações**: Orientações por categoria de qualidade do ar
+   
+   **Tab 6: Análise de Tendências** _(NOVO)_
+   - **Filtros Avançados**: Por poluente, estado e município
+   - **Tendência Linear**:
+     - Regressão linear com coeficiente de determinação (R²)
+     - Taxa de mudança diária e percentual
+     - Interpretação estatística (p-value)
+     - Classificação: crescente, decrescente ou estável
+   - **Projeções Futuras**:
+     - Projeção de 7 dias baseada em tendência linear
+     - Intervalo de confiança de 95%
+     - Visualização integrada com dados históricos
+   - **Análise de Sazonalidade**:
+     - Padrões por dia da semana
+     - Padrões mensais
+     - Identificação de períodos críticos
+   - **Análise de Volatilidade**:
+     - Medidas de tendência central (média, mediana)
+     - Medidas de dispersão (desvio padrão, amplitude)
+     - Coeficiente de variação
+     - Box plot de distribuição
+   - **Detecção de Anomalias**:
+     - Método Z-score (> 2.5 desvios padrão)
+     - Classificação: anomalias altas e baixas
+     - Visualização temporal de anomalias
+     - Tabela detalhada de ocorrências
 
 4. **Rodapé**
    - Informações sobre fonte de dados e padrões utilizados
+
+---
+
+## Módulo de Análise de Tendências
+
+### Classe: `AnalisadorTendencias`
+
+Este módulo fornece ferramentas estatísticas avançadas para análise temporal de dados de qualidade do ar.
+
+#### Inicialização
+
+```python
+analisador = AnalisadorTendencias(df, coluna_data='data')
+```
+
+**Parâmetros:**
+- `df`: DataFrame com dados históricos
+- `coluna_data`: Nome da coluna contendo timestamps (padrão: 'data')
+
+**Funcionalidades Principais:**
+
+#### 1. Análise de Tendência Linear
+
+```python
+tendencia = analisador.calcular_tendencia_linear(
+    poluente='PM2.5',
+    estado='SP',
+    municipio='São Paulo'
+)
+```
+
+**Método Estatístico:** Regressão Linear Simples (scipy.stats.linregress)
+
+**Retorna:**
+- `slope`: Taxa de mudança (µg/m³ por dia)
+- `intercept`: Valor inicial estimado
+- `r_squared`: Coeficiente de determinação (0-1)
+- `p_value`: Significância estatística
+- `tendencia`: Classificação ('crescente', 'decrescente', 'estável')
+- `taxa_mudanca_percentual`: Mudança percentual diária
+
+**Critérios de Classificação:**
+- **Crescente**: slope > 0.1 e p < 0.05
+- **Decrescente**: slope < -0.1 e p < 0.05
+- **Estável**: |slope| ≤ 0.1 ou p ≥ 0.05
+
+#### 2. Projeções Futuras
+
+```python
+projecao = analisador.projetar_valores_futuros(
+    poluente='PM2.5',
+    dias_futuros=7,
+    estado='SP'
+)
+```
+
+**Método:** Extrapolação linear com intervalo de confiança de 95%
+
+**Retorna DataFrame com:**
+- `data`: Datas futuras projetadas
+- `valor_projetado`: Valor estimado
+- `limite_inferior`: Limite inferior do IC 95%
+- `limite_superior`: Limite superior do IC 95%
+
+**Fórmula:**
+```
+valor_projetado = intercept + slope * dias_desde_inicio
+margem_erro = 1.96 * erro_padrao * sqrt(dias_desde_inicio)
+```
+
+#### 3. Análise de Sazonalidade
+
+```python
+sazonalidade = analisador.analisar_sazonalidade(
+    poluente='PM2.5',
+    estado='SP'
+)
+```
+
+**Retorna:**
+- `por_dia_semana`: Estatísticas por dia da semana (média, std, count)
+- `por_mes`: Estatísticas mensais
+- `dia_semana_maior/menor`: Dias com maiores/menores concentrações
+- `mes_maior/menor`: Meses com maiores/menores concentrações
+- `variacao_semanal/mensal`: Desvio padrão das médias
+
+**Uso:** Identificar padrões temporais recorrentes
+
+#### 4. Análise de Volatilidade
+
+```python
+volatilidade = analisador.calcular_volatilidade(
+    poluente='PM2.5',
+    estado='SP'
+)
+```
+
+**Métricas Calculadas:**
+
+**Tendência Central:**
+- Média aritmética
+- Mediana (P50)
+
+**Dispersão:**
+- Desvio padrão
+- Coeficiente de variação (CV = std/mean * 100)
+- Amplitude (max - min)
+- Amplitude interquartil (P75 - P25)
+- Percentis 25 e 75
+
+**Interpretação do Coeficiente de Variação:**
+- CV < 15%: Baixa volatilidade (dados homogêneos)
+- 15% ≤ CV < 30%: Volatilidade moderada
+- CV ≥ 30%: Alta volatilidade (dados heterogêneos)
+
+#### 5. Detecção de Anomalias
+
+```python
+anomalias = analisador.detectar_anomalias(
+    poluente='PM2.5',
+    limite_desvios=2.5,
+    estado='SP'
+)
+```
+
+**Método:** Z-score (Desvios Padrão da Média)
+
+**Fórmula:**
+```
+z_score = (valor - média) / desvio_padrão
+anomalia = |z_score| > limite_desvios
+```
+
+**Padrão:** limite_desvios = 2.5 (captura ~99% dos valores em distribuição normal)
+
+**Retorna DataFrame com:**
+- `data`: Data da anomalia
+- `poluente`: Valor anômalo
+- `z_score`: Número de desvios padrão
+- `tipo`: 'Alta' (z > 0) ou 'Baixa' (z < 0)
+
+**Interpretação:**
+- Z-score > 2.5: Valor anormalmente alto
+- Z-score < -2.5: Valor anormalmente baixo
+
+#### 6. Comparação de Períodos
+
+```python
+comparacao = analisador.comparar_periodos(
+    poluente='PM2.5',
+    periodo1_inicio='2025-10-01',
+    periodo1_fim='2025-10-15',
+    periodo2_inicio='2025-10-16',
+    periodo2_fim='2025-10-31',
+    estado='SP'
+)
+```
+
+**Método:** Teste t de Student para amostras independentes
+
+**Retorna:**
+- Estatísticas de cada período (média, mediana, std)
+- `mudanca_absoluta`: Diferença entre médias
+- `mudanca_percentual`: Variação percentual
+- `t_statistic`: Estatística do teste t
+- `p_value`: Significância da diferença
+- `diferenca_significativa`: Boolean (p < 0.05)
+- `interpretacao`: Descrição textual
+
+#### 7. Média Móvel
+
+```python
+df_ma = analisador.calcular_media_movel(
+    poluente='PM2.5',
+    janela=7,
+    estado='SP'
+)
+```
+
+**Método:** Rolling mean (janela deslizante)
+
+**Uso:** Suavizar ruído e identificar tendências subjacentes
+
+**Retorna DataFrame com:**
+- `data`: Datas
+- `poluente`: Valores originais
+- `{poluente}_MA{janela}`: Média móvel
+
+#### 8. Relatório Completo
+
+```python
+relatorio = analisador.gerar_relatorio_completo(
+    poluente='PM2.5',
+    estado='SP'
+)
+```
+
+**Retorna dicionário com:**
+- `tendencia_linear`: Análise de tendência
+- `volatilidade`: Métricas de dispersão
+- `sazonalidade`: Padrões temporais
+- `anomalias`: DataFrame de anomalias
+- `projecao_7_dias`: Projeções futuras
+
+### Funções Auxiliares
+
+Para uso rápido sem instanciar a classe:
+
+```python
+from analise_tendencias import calcular_tendencia, projetar_futuro, detectar_anomalias
+
+# Uso direto
+tendencia = calcular_tendencia(df, 'PM2.5', estado='SP')
+projecao = projetar_futuro(df, 'PM2.5', dias=7)
+anomalias = detectar_anomalias(df, 'PM2.5')
+```
+
+### Visualizações no Dashboard
+
+A Tab "Análise de Tendências" integra todas essas análises em visualizações interativas:
+
+1. **Gráfico de Tendência e Projeção**
+   - Scatter plot dos valores observados
+   - Linha de regressão linear
+   - Projeção futura com intervalo de confiança
+   - Linha de referência OMS
+
+2. **Gráficos de Sazonalidade**
+   - Barras: Médias por dia da semana
+   - Barras: Médias mensais
+   - Barras de erro mostrando desvio padrão
+
+3. **Box Plot de Volatilidade**
+   - Visualização da distribuição completa
+   - Quartis, mediana e outliers
+   - Média e desvio padrão
+
+4. **Gráfico de Anomalias**
+   - Valores normais vs. anomalias
+   - Destacado com marcadores em X vermelho
+   - Timeline temporal
+
+### Considerações Técnicas
+
+**Performance:**
+- Cálculos vetorizados com NumPy para eficiência
+- Cache de Streamlit para evitar recálculos desnecessários
+
+**Requisitos de Dados:**
+- Mínimo 3 observações para tendência linear
+- Mínimo 7 observações para sazonalidade semanal
+- Mínimo 5 observações para detecção de anomalias
+
+**Limitações:**
+- Regressão linear assume relação linear (pode não capturar padrões complexos)
+- Projeções são válidas apenas para curto prazo (7 dias recomendado)
+- Detecção de anomalias assume distribuição aproximadamente normal
+
+**Bibliotecas Utilizadas:**
+- `scipy.stats`: Regressões e testes estatísticos
+- `numpy`: Cálculos numéricos
+- `pandas`: Manipulação de dados temporais
 
 ---
 

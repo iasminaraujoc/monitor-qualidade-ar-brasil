@@ -51,6 +51,13 @@ O dashboard estará disponível em: **http://localhost:8501**
 - Distribuição de categorias de qualidade do ar
 - Estatísticas gerais (quantos municípios acima do limite OMS)
 
+### 🚨 Sistema de Alertas
+- Alertas automáticos para estados e municípios com concentrações críticas
+- Níveis de alerta: Crítico (PM2.5 > 35 µg/m³), Alerta OMS (PM2.5 > 15 µg/m³)
+- Paginação de alertas (20 por página)
+- Estatísticas dinâmicas por filtro
+- Recomendações de saúde por categoria
+
 ### 📈 Série Temporal
 - Evolução temporal dos poluentes
 - Filtros por estado e município
@@ -67,16 +74,54 @@ O dashboard estará disponível em: **http://localhost:8501**
 - Filtros por estado e categoria
 - Download em CSV (filtrado ou completo)
 
+### 📊 Análise de Tendências 🆕
+**Funcionalidade avançada de análise estatística:**
+
+#### 📈 Tendência Linear
+- Regressão linear com coeficiente de determinação (R²)
+- Taxa de mudança diária e percentual
+- Classificação: crescente, decrescente ou estável
+- Interpretação de significância estatística (p-value)
+
+#### 🔮 Projeções Futuras
+- Projeção de 7 dias baseada em tendência linear
+- Intervalo de confiança de 95%
+- Visualização integrada com dados históricos
+- Linha de referência OMS
+
+#### 📅 Análise de Sazonalidade
+- Padrões por dia da semana
+- Padrões mensais
+- Identificação de períodos críticos
+- Gráficos com barras de erro
+
+#### 📊 Análise de Volatilidade
+- Medidas de tendência central (média, mediana)
+- Medidas de dispersão (desvio padrão, amplitude)
+- Coeficiente de variação
+- Box plot de distribuição
+- Percentis e amplitude interquartil
+
+#### 🔍 Detecção de Anomalias
+- Método Z-score (> 2.5 desvios padrão)
+- Classificação: anomalias altas e baixas
+- Visualização temporal de anomalias
+- Tabela detalhada de ocorrências anômalas
+
 ## 📁 Estrutura do Projeto
 
 ```
 monitor-qualidade-ar-brasil/
 ├── coletar_inpe_sisam.py       # Script de coleta de dados
 ├── dashboard_qualidade_ar.py   # Dashboard Streamlit
+├── analise_tendencias.py       # Módulo de análise estatística 🆕
+├── alertas.py                  # Sistema de alertas
 ├── requirements.txt            # Dependências Python
+├── iniciar_dashboard.sh        # Script de inicialização
 ├── downloads_inpe/             # Dados coletados
-│   ├── dados_inpe_hoje_*.csv
+│   ├── dados_inpe_hoje_*.json
 │   └── dados_inpe_semana_*.csv
+├── DOCUMENTACAO_TECNICA.md     # Documentação técnica completa
 └── README.md                   # Este arquivo
 ```
 
@@ -93,6 +138,8 @@ monitor-qualidade-ar-brasil/
 - `plotly`: Visualizações interativas
 - `selenium`: Automação web para coleta de dados
 - `beautifulsoup4`: Parsing de HTML
+- `scipy`: Análises estatísticas e regressões 🆕
+- `numpy`: Computação numérica 🆕
 
 ## 🌍 Padrões OMS 2021
 
